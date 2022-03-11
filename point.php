@@ -1,7 +1,7 @@
 <?php
 
 // Initialize connection variables.
-include("localhost_connect.php");
+include("ru_connect.php");
 
 
 # Build GeoJSON feature collection array

@@ -67,50 +67,25 @@
             type: 'Road'
         });
 
-        // var point = L.geoJson(null, {
-        //     onEachFeature: function(feature, layer) {
-        //         var popupContent = "<l>Location Name: </l>" + feature.properties["Location Name"] +
-        //             "<br><l>Address: </l>" + feature.properties["Address"] +
-        //             "<br><l>Date: </l>" + feature.properties["Date"] +
-        //             "<br><l>People: </l>" + feature.properties.people;
-        //         layer.bindPopup(popupContent);
-        //     }
-        // });
-
         var point = L.geoJson(null, {
             onEachFeature: function(feature, layer) {
-                var popupText = "<l>tree id: </l>" + feature.properties.tree_id
-                    + "<br><l>survey date: </l>" + feature.properties.survey_date
-                    + "<br><l>ชื่อ: </l>" + feature.properties.name_t
-                    + "<br><l>name: </l>" + feature.properties.name_e
-                    + "<br><l>genus: </l>" + feature.properties.genus
-                    + "<br><l>species: </l>" + feature.properties.species
-                    + "<br><l>protection: </l>" + feature.properties.protection
-                    + "<br><l>royal owner: </l>" + feature.properties.royal_owner
-                    + "<br><l>condition: </l>" + feature.properties.condition
-                    + "<br><l>historical: </l>" + feature.properties.historical
-                    + "<br><l>address: </l>" + feature.properties.address
-                    + "<br><l>plant_date: </l>" + feature.properties.plant_date
-                    + "<br><l>description: </l>" + feature.properties.description
-                    + "<br><l>flowers: </l>" + feature.properties.flowers
-                    + "<br><l>pods: </l>" + feature.properties.pods;
-                layer.bindPopup(popupText); 
+                var popupContent = "<l>Location Name: </l>" + feature.properties["Location Name"] +
+                    "<br><l>Address: </l>" + feature.properties["Address"] +
+                    "<br><l>Date: </l>" + feature.properties["Date"] +
+                    "<br><l>People: </l>" + feature.properties.people;
+                layer.bindPopup(popupContent);
             }
         });
 
-        // $.getJSON('point.php', function(data) {
-        //     point.addData(data).addTo(map);
-        // });
-
-        $.getJSON('cu_tree.php', function(data) {
+        $.getJSON('point.php', function(data) {
             point.addData(data).addTo(map);
         });
 
-        // var line = L.geoJson(null);
+        var line = L.geoJson(null);
 
-        // $.getJSON('line.php', function(data) {
-        //     line.addData(data).addTo(map);
-        // });
+        $.getJSON('line.php', function(data) {
+            line.addData(data).addTo(map);
+        });
 
         var testData = {
             max: 8,
@@ -535,8 +510,8 @@
 
         var map = L.map('map', {
             // center: [13.6725183891, 100.427231182],
-            center: [13.73826, 100.532413],
-            zoom: 20,
+            center: [13.6725183891, 100.427231182],
+            zoom: 15,
             layers: [heatmapLayer]
         });
 
@@ -561,21 +536,12 @@
             }
         }];
 
-        // var overlays = [{
-        //     groupName: "March 7, 2022",
-        //     expanded: true,
-        //     layers: {
-        //         "Points": point,
-        //         "Line": line
-        //     }
-        // }];
-
         var overlays = [{
-            groupName: "CU Tree",
+            groupName: "March 7, 2022",
             expanded: true,
             layers: {
                 "Points": point,
-                // "Line": line
+                "Line": line
             }
         }];
 
@@ -603,10 +569,9 @@
             groupName: "Bing Maps"
         });
 
-        // control.selectLayer(line);
+        control.selectLayer(line);
 
-        // control.selectGroup("March 7, 2022");
-        control.selectGroup("CU Tree");
+        control.selectGroup("March 7, 2022");
     </script>
 </body>
 

@@ -1,10 +1,10 @@
 <?php
 
 // Initialize connection variables.
-$host = "localhost";
-$database = "postgres";
+$host = "infraplus-ru.org";
+$database = "householdvisit";
 $user = "postgres";
-$password = "admin";
+$password = "postgres@ru1234";
 $port = "5432";
 
 $appName = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
