@@ -537,7 +537,7 @@
             // center: [13.6725183891, 100.427231182],
             center: [13.73826, 100.532413],
             zoom: 20,
-            layers: [osm, heatmapLayer]
+            layers: [heatmapLayer]
         });
 
         heatmapLayer.setData(testData);
