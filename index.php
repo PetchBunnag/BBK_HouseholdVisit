@@ -79,21 +79,21 @@
 
         var point = L.geoJson(null, {
             onEachFeature: function(feature, layer) {
-                var popupText = "tree id: " + feature.properties.tree_id
-                    + "<br>survey date: " + feature.properties.survey_date
-                    + "<br>ชื่อ: " + feature.properties.name_t
-                    + "<br>name: " + feature.properties.name_e
-                    + "<br>genus: " + feature.properties.genus
-                    + "<br>species: " + feature.properties.species
-                    + "<br>protection: " + feature.properties.protection
-                    + "<br>royal owner: " + feature.properties.royal_owner
-                    + "<br>condition: " + feature.properties.condition
-                    + "<br>historical: " + feature.properties.historical
-                    + "<br>address: " + feature.properties.address
-                    + "<br>plant_date: " + feature.properties.plant_date
-                    + "<br>description: " + feature.properties.description
-                    + "<br>flowers: " + feature.properties.flowers
-                    + "<br>pods: " + feature.properties.pods;
+                var popupText = "<l>tree id: </l>" + feature.properties.tree_id
+                    + "<br><l>survey date: </l>" + feature.properties.survey_date
+                    + "<br><l>ชื่อ: </l>" + feature.properties.name_t
+                    + "<br><l>name: </l>" + feature.properties.name_e
+                    + "<br><l>genus: </l>" + feature.properties.genus
+                    + "<br><l>species: </l>" + feature.properties.species
+                    + "<br><l>protection: </l>" + feature.properties.protection
+                    + "<br><l>royal owner: </l>" + feature.properties.royal_owner
+                    + "<br><l>condition: </l>" + feature.properties.condition
+                    + "<br><l>historical: </l>" + feature.properties.historical
+                    + "<br><l>address: </l>" + feature.properties.address
+                    + "<br><l>plant_date: </l>" + feature.properties.plant_date
+                    + "<br><l>description: </l>" + feature.properties.description
+                    + "<br><l>flowers: </l>" + feature.properties.flowers
+                    + "<br><l>pods: </l>" + feature.properties.pods;
                 layer.bindPopup(popupText); 
             }
         });
