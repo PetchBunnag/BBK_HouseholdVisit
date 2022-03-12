@@ -67,8 +67,6 @@
         //     type: 'Road'
         // });
 
-        var people = [];
-
         var point = L.geoJson(null, {
             onEachFeature: function(feature, layer) {
                 var popupContent = "<l>Location Name: </l>" + feature.properties["Location Name"] +
@@ -76,11 +74,8 @@
                     "<br><l>Date: </l>" + feature.properties["Date"] +
                     "<br><l>People: </l>" + feature.properties.people;
                 layer.bindPopup(popupContent);
-                people.push(feature.properties.people);
             }
         });
-
-        console.log(people);
 
         $.getJSON('point.php', function(data) {
             point.addData(data).addTo(map);
@@ -90,6 +85,52 @@
 
         $.getJSON('line.php', function(data) {
             line.addData(data).addTo(map);
+        });
+
+        var zone = L.geoJson(null, {
+            onEachFeature: function(feature, layer) {
+                var popupContent = "<l>กลุ่มเขต: </l>" + feature.properties.z_name +
+                    "<br><l>ประชากรชาย: </l>" + feature.properties.no_male +
+                    "<br><l>ประชากรหญิง: </l>" + feature.properties.no_female +
+                    "<br><l>ครัวเรือน: </l>" + feature.properties.no_house +
+                    "<br><l>ชุมชน: </l>" + feature.properties.no_commu +
+                    "<br><l>พื้นที่: </l>" + feature.properties.z_area;
+                layer.bindPopup(popupContent);
+            }
+        });
+
+        $.getJSON('bma_zone.php', function(data) {
+            zone.addData(data).addTo(map);
+        });
+
+        var district = L.geoJson(null, {
+            onEachFeature: function(feature, layer) {
+                var popupContent = "<l>เขต: </l>" + feature.properties.dname +
+                    "<br><l>พื้นที่: </l>" + feature.properties.area +
+                    "<br><l>ประชากรชาย: </l>" + feature.properties.no_male +
+                    "<br><l>ประชากรหญิง: </l>" + feature.properties.no_female +
+                    "<br><l>สถานพยาบาล: </l>" + feature.properties.no_health +
+                    "<br><l>วัด: </l>" + feature.properties.no_temple +
+                    "<br><l>ชุมชน: </l>" + feature.properties.no_commu +
+                    // "<br><l>โรงพยาบาล: </l>" + feature.properties.no_hos +
+                    "<br><l>โรงเรียน: </l>" + feature.properties.no_sch;
+                layer.bindPopup(popupContent);
+            }
+        });
+
+        $.getJSON('district.php', function(data) {
+            district.addData(data);
+        });
+
+        var community = L.geoJson(null, {
+            onEachFeature: function(feature, layer) {
+                var popupContent = "<l>ชุมชน: </l>" + feature.properties.name;
+                layer.bindPopup(popupContent);
+            }
+        });
+
+        $.getJSON('community.php', function(data) {
+            community.addData(data);
         });
 
         var testData = {
@@ -514,7 +555,6 @@
         var heatmapLayer = new HeatmapOverlay(cfg);
 
         var map = L.map('map', {
-            // center: [13.6725183891, 100.427231182],
             center: [13.6725183891, 100.427231182],
             zoom: 15,
             layers: [heatmapLayer]
@@ -537,13 +577,22 @@
             }
         }, {
             groupName: "OSM Base Maps",
-            expanded: true,
+            expanded: false,
             layers: {
                 "OpenStreetMaps": osm
             }
         }];
 
         var overlays = [{
+                groupName: "Layers",
+                expanded: true,
+                layers: {
+                    "Zone": zone,
+                    "District": district,
+                    "Community": community
+                }
+            },
+            {
                 groupName: "Group 1",
                 expanded: false,
                 layers: {
