@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js" integrity="sha512-Abr21JO2YqcJ03XGZRPuZSWKBhJpUAR6+2wH5zBeO4wAw4oksr8PRdF+BKIRsxvCdq+Mv4670rZ+dLnIyabbGw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="css/styledLayerControl.css" />
     <script src="src/styledLayerControl.js"></script>
-    <script src="plugins/Bing.js"></script>
+    <!-- <script src="plugins/Bing.js"></script> -->
     <script src="build/heatmap.js"></script>
     <script src="plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
 
@@ -60,12 +60,14 @@
         });
 
         // Bing layers
-        var bing1 = new L.BingLayer("AvZ2Z8Jve41V_bnPTe2mw4Xi8YWTyj2eT87tSGSsezrYWiyaj0ldMaVdkyf8aik6", {
-            type: 'Aerial'
-        });
-        var bing2 = new L.BingLayer("AvZ2Z8Jve41V_bnPTe2mw4Xi8YWTyj2eT87tSGSsezrYWiyaj0ldMaVdkyf8aik6", {
-            type: 'Road'
-        });
+        // var bing1 = new L.BingLayer("AvZ2Z8Jve41V_bnPTe2mw4Xi8YWTyj2eT87tSGSsezrYWiyaj0ldMaVdkyf8aik6", {
+        //     type: 'Aerial'
+        // });
+        // var bing2 = new L.BingLayer("AvZ2Z8Jve41V_bnPTe2mw4Xi8YWTyj2eT87tSGSsezrYWiyaj0ldMaVdkyf8aik6", {
+        //     type: 'Road'
+        // });
+
+        var people = [];
 
         var point = L.geoJson(null, {
             onEachFeature: function(feature, layer) {
@@ -74,8 +76,11 @@
                     "<br><l>Date: </l>" + feature.properties["Date"] +
                     "<br><l>People: </l>" + feature.properties.people;
                 layer.bindPopup(popupContent);
+                people.push(feature.properties.people);
             }
         });
+
+        console.log(people);
 
         $.getJSON('point.php', function(data) {
             point.addData(data).addTo(map);
@@ -520,58 +525,50 @@
         // make accessible for debugging
         layer = heatmapLayer;
 
-        map.addLayer(bing1);
+        map.addLayer(osm);
+        // map.addLayer(bing1);
 
         var baseMaps = [{
             groupName: "Google Base Maps",
-            expanded: true,
+            expanded: false,
             layers: {
                 "Satellite": googleSat,
                 "Street View": googleStreets
             }
         }, {
             groupName: "OSM Base Maps",
+            expanded: true,
             layers: {
                 "OpenStreetMaps": osm
             }
         }];
 
         var overlays = [{
-            groupName: "March 7, 2022",
-            expanded: true,
-            layers: {
-                "Points": point,
-                "Line": line
+                groupName: "Group 1",
+                expanded: false,
+                layers: {
+                    "March 7, 2022": line
+                }
+            },
+            {
+                groupName: "Group 2",
+                expanded: false,
+                layers: {
+                    "March 7, 2022": point
+                }
             }
-        }];
-
-        point.StyledLayerControl = {
-            removable: false
-        }
+        ];
 
         var options = {
-            container_width: "300px",
+            container_width: "200px",
             group_maxHeight: "80px",
             //container_maxHeight : "350px", 
-            exclusive: true
+            exclusive: true,
+            collapsed: false
         };
 
         var control = L.Control.styledLayerControl(baseMaps, overlays, options);
         map.addControl(control);
-
-        // test for adding new base layers dynamically
-        // to create a new group simply add a layer with new group name
-        control.addBaseLayer(bing1, "Bing Satellite", {
-            groupName: "Bing Maps",
-            expanded: true
-        });
-        control.addBaseLayer(bing2, "Bing Road", {
-            groupName: "Bing Maps"
-        });
-
-        control.selectLayer(line);
-
-        control.selectGroup("March 7, 2022");
     </script>
 </body>
 
