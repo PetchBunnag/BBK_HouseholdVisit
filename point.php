@@ -11,7 +11,7 @@ $geojson = array(
 );
 
 # Build SQL SELECT statement and return the geometry as a GeoJSON element
-$sql = 'select "Location Name", "Address", contact_number, "Date"::timestamp with time zone, people,
+$sql = 'select "Location Name", "Latitude", "Longitude", "Address", contact_number, "Date"::timestamp with time zone, people,
 st_asgeojson(geom) as geojson from savelocation_07_mar_22_10_35_37_am';
 
 //echo $sql;

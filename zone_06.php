@@ -11,7 +11,7 @@ $geojson = array(
 );
 
 # Build SQL SELECT statement and return the geometry as a GeoJSON element
-$sql = 'select *, st_asgeojson(geom) as geojson from community';
+$sql = "select *, st_asgeojson(geom) as geojson from bma_zone where z_code = '06'";
 
 //echo $sql;
 
