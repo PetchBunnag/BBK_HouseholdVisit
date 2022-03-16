@@ -35,7 +35,7 @@
             background-color: transparent;
             border: transparent;
             box-shadow: none;
-            font-weight: bold;
+            /* font-weight: bold; */
             font-size: 16px;
         }
 
