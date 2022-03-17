@@ -11,6 +11,9 @@
     <!-- <script src="plugins/Bing.js"></script> -->
     <script src="build/heatmap.js"></script>
     <script src="plugins/leaflet-heatmap/leaflet-heatmap.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
 
     <style>
         body {
@@ -31,12 +34,21 @@
             z-index: 100;
         }
 
+        .leaflet-container {
+            font-family: 'Sarabun', sans-serif;
+        }
+
         .leaflet-tooltip.my-labels {
             background-color: transparent;
             border: transparent;
             box-shadow: none;
+            font-family: 'Sarabun', sans-serif;
             /* font-weight: bold; */
             font-size: 16px;
+        }
+
+        label {
+            font-family: 'Sarabun', sans-serif;
         }
 
         l {
@@ -61,10 +73,10 @@
         });
 
         // OSM layers
-        var osmUrl = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
-        var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+        var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
         var osm = new L.TileLayer(osmUrl, {
-            attribution: osmAttrib
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            subdomains: ['a', 'b', 'c']
         });
 
         // Bing layers
@@ -262,145 +274,24 @@
             community.addData(data);
         });
 
+        // Add heatmap layer
+
+        var value = [];
+
+        for (var i = 0; i < 34; i++) {
+            var data = {
+                lat: lat[i],
+                lng: lon[i],
+                count: people[i]
+            }
+            value.push(data);
+        }
+
+        console.log(value);
+
         var testData = {
             max: 10,
-            data: [{
-                lat: lat[0],
-                lng: lon[0],
-                count: people[0]
-            }, {
-                lat: lat[1],
-                lng: lon[1],
-                count: people[1]
-            }, {
-                lat: lat[2],
-                lng: lon[2],
-                count: people[2]
-            }, {
-                lat: lat[3],
-                lng: lon[3],
-                count: people[3]
-            }, {
-                lat: lat[4],
-                lng: lon[4],
-                count: people[4]
-            }, {
-                lat: lat[5],
-                lng: lon[5],
-                count: people[5]
-            }, {
-                lat: lat[6],
-                lng: lon[6],
-                count: people[6]
-            }, {
-                lat: lat[7],
-                lng: lon[7],
-                count: people[7]
-            }, {
-                lat: lat[8],
-                lng: lon[8],
-                count: people[8]
-            }, {
-                lat: lat[9],
-                lng: lon[9],
-                count: people[9]
-            }, {
-                lat: lat[10],
-                lng: lon[10],
-                count: people[10]
-            }, {
-                lat: lat[11],
-                lng: lon[11],
-                count: people[11]
-            }, {
-                lat: lat[12],
-                lng: lon[12],
-                count: people[12]
-            }, {
-                lat: lat[13],
-                lng: lon[13],
-                count: people[13]
-            }, {
-                lat: lat[14],
-                lng: lon[14],
-                count: people[14]
-            }, {
-                lat: lat[15],
-                lng: lon[15],
-                count: people[15]
-            }, {
-                lat: lat[16],
-                lng: lon[16],
-                count: people[16]
-            }, {
-                lat: lat[17],
-                lng: lon[17],
-                count: people[17]
-            }, {
-                lat: lat[18],
-                lng: lon[18],
-                count: people[18]
-            }, {
-                lat: lat[19],
-                lng: lon[19],
-                count: people[19]
-            }, {
-                lat: lat[20],
-                lng: lon[20],
-                count: people[20]
-            }, {
-                lat: lat[21],
-                lng: lon[21],
-                count: people[21]
-            }, {
-                lat: lat[22],
-                lng: lon[22],
-                count: people[22]
-            }, {
-                lat: lat[23],
-                lng: lon[23],
-                count: people[23]
-            }, {
-                lat: lat[24],
-                lng: lon[24],
-                count: people[24]
-            }, {
-                lat: lat[25],
-                lng: lon[25],
-                count: people[25]
-            }, {
-                lat: lat[26],
-                lng: lon[26],
-                count: people[26]
-            }, {
-                lat: lat[27],
-                lng: lon[27],
-                count: people[27]
-            }, {
-                lat: lat[28],
-                lng: lon[28],
-                count: people[28]
-            }, {
-                lat: lat[29],
-                lng: lon[29],
-                count: people[29]
-            }, {
-                lat: lat[30],
-                lng: lon[30],
-                count: people[30]
-            }, {
-                lat: lat[31],
-                lng: lon[31],
-                count: people[31]
-            }, {
-                lat: lat[32],
-                lng: lon[32],
-                count: people[32]
-            }, {
-                lat: lat[33],
-                lng: lon[33],
-                count: people[33]
-            }]
+            data: value
         };
 
         var cfg = {
@@ -424,8 +315,8 @@
         var heatmapLayer = new HeatmapOverlay(cfg);
 
         var map = L.map('map', {
-            center: [13.6725183891, 100.427231182],
-            zoom: 15,
+            center: [13.751330328, 100.489664708],
+            zoom: 10,
             layers: [heatmapLayer]
         });
 
@@ -434,7 +325,7 @@
         // make accessible for debugging
         layer = heatmapLayer;
 
-        map.addLayer(googleStreets);
+        map.addLayer(osm);
         // map.addLayer(bing1);
 
         var baseMaps = [{
