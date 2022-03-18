@@ -105,8 +105,12 @@
         });
 
         $.getJSON('point.php', function(data) {
-            point.addData(data).addTo(map);
+            point.addData(data);
         });
+
+        point.on('add', () => {
+            map.fitBounds(point.getBounds())
+        })
 
         var lat = [];
         var lng = [];
@@ -122,12 +126,25 @@
         var line = L.geoJson(null);
 
         $.getJSON('line.php', function(data) {
-            line.addData(data).addTo(map);
+            line.addData(data);
         });
+
+        line.on('add', () => {
+            map.fitBounds(line.getBounds())
+        })
 
         // Add 6 Zones
 
         var zone_01 = L.geoJson(null, {
+            style: function(feature) {
+                return {
+                    weight: 2,
+                    opacity: 1,
+                    color: '#BFC9CA',
+                    fillColor: '#800026',
+                    fillOpacity: 0.5,
+                };
+            },
             onEachFeature: function(feature, layer) {
                 var popupContent = "<l>กลุ่มเขต: </l>" + feature.properties.z_name +
                     "<br><l>ประชากรชาย: </l>" + feature.properties.no_male +
@@ -140,6 +157,15 @@
         });
 
         var zone_02 = L.geoJson(null, {
+            style: function(feature) {
+                return {
+                    weight: 2,
+                    opacity: 1,
+                    color: '#BFC9CA',
+                    fillColor: '#DFFF00',
+                    fillOpacity: 0.5,
+                };
+            },
             onEachFeature: function(feature, layer) {
                 var popupContent = "<l>กลุ่มเขต: </l>" + feature.properties.z_name +
                     "<br><l>ประชากรชาย: </l>" + feature.properties.no_male +
@@ -152,6 +178,15 @@
         });
 
         var zone_03 = L.geoJson(null, {
+            style: function(feature) {
+                return {
+                    weight: 2,
+                    opacity: 1,
+                    color: '#BFC9CA',
+                    fillColor: '#FFBF00',
+                    fillOpacity: 0.5,
+                };
+            },
             onEachFeature: function(feature, layer) {
                 var popupContent = "<l>กลุ่มเขต: </l>" + feature.properties.z_name +
                     "<br><l>ประชากรชาย: </l>" + feature.properties.no_male +
@@ -164,6 +199,15 @@
         });
 
         var zone_04 = L.geoJson(null, {
+            style: function(feature) {
+                return {
+                    weight: 2,
+                    opacity: 1,
+                    color: '#BFC9CA',
+                    fillColor: '#FF7F50',
+                    fillOpacity: 0.5,
+                };
+            },
             onEachFeature: function(feature, layer) {
                 var popupContent = "<l>กลุ่มเขต: </l>" + feature.properties.z_name +
                     "<br><l>ประชากรชาย: </l>" + feature.properties.no_male +
@@ -176,6 +220,15 @@
         });
 
         var zone_05 = L.geoJson(null, {
+            style: function(feature) {
+                return {
+                    weight: 2,
+                    opacity: 1,
+                    color: '#BFC9CA',
+                    fillColor: '#DE3163',
+                    fillOpacity: 0.5,
+                };
+            },
             onEachFeature: function(feature, layer) {
                 var popupContent = "<l>กลุ่มเขต: </l>" + feature.properties.z_name +
                     "<br><l>ประชากรชาย: </l>" + feature.properties.no_male +
@@ -188,6 +241,15 @@
         });
 
         var zone_06 = L.geoJson(null, {
+            style: function(feature) {
+                return {
+                    weight: 2,
+                    opacity: 1,
+                    color: '#BFC9CA',
+                    fillColor: '#9FE2BF',
+                    fillOpacity: 0.5,
+                };
+            },
             onEachFeature: function(feature, layer) {
                 var popupContent = "<l>กลุ่มเขต: </l>" + feature.properties.z_name +
                     "<br><l>ประชากรชาย: </l>" + feature.properties.no_male +
@@ -223,9 +285,42 @@
             zone_06.addData(data);
         });
 
+        zone_01.on('add', () => {
+            map.fitBounds(zone_01.getBounds())
+        })
+
+        zone_02.on('add', () => {
+            map.fitBounds(zone_02.getBounds())
+        })
+
+        zone_03.on('add', () => {
+            map.fitBounds(zone_03.getBounds())
+        })
+
+        zone_04.on('add', () => {
+            map.fitBounds(zone_04.getBounds())
+        })
+
+        zone_05.on('add', () => {
+            map.fitBounds(zone_05.getBounds())
+        })
+
+        zone_06.on('add', () => {
+            map.fitBounds(zone_06.getBounds())
+        })
+
         // Add district layer
 
         var district = L.geoJson(null, {
+            style: function(feature) {
+                return {
+                    weight: 2,
+                    opacity: 1,
+                    color: '#F1C40F',
+                    fillColor: '#FCF3CF',
+                    fillOpacity: 0.5,
+                };
+            },
             onEachFeature: function(feature, layer) {
                 var popupContent = "<l>เขต: </l>" + feature.properties.dname +
                     "<br><l>พื้นที่: </l>" + feature.properties.area +
@@ -240,16 +335,20 @@
             }
         });
 
-        $.getJSON('district.php', function(data) {
+        $.getJSON('http://infraplus-ru.org:4005/district', function(data) {
             district.addData(data).addTo(map);
         });
+
+        district.on('add', () => {
+            map.fitBounds(district.getBounds())
+        })
 
         // Add community layer
 
         var geojsonMarkerOptions = {
             radius: 8,
-            fillColor: "#ff7800",
-            color: 'transparent',
+            fillColor: '#239B56',
+            color: '#28B463',
             weight: 1,
             opacity: 1,
             fillOpacity: 0.8
@@ -257,15 +356,17 @@
 
         var community = L.geoJson(null, {
             pointToLayer: function(feature, latlng) {
-                label = String(feature.properties.comm_id)
-                return L.circleMarker(latlng, geojsonMarkerOptions).bindTooltip(label, {
-                    permanent: true,
-                    direction: "top",
-                    className: "my-labels"
-                }).openTooltip();
+                // label = String(feature.properties.comm_id)
+                return L.circleMarker(latlng, geojsonMarkerOptions)
+                // .bindTooltip(label, {
+                //     permanent: true,
+                //     direction: "top",
+                //     className: "my-labels"
+                // }).openTooltip();
             },
             onEachFeature: function(feature, layer) {
-                var popupContent = "<l>ชุมชน: </l>" + feature.properties.name;
+                var popupContent = "<l>ID: </l>" + feature.properties.comm_id +
+                "<br><l>ชุมชน: </l>" + feature.properties.name;
                 layer.bindPopup(popupContent);
             }
         });
@@ -273,6 +374,10 @@
         $.getJSON('community.php', function(data) {
             community.addData(data);
         });
+
+        community.on('add', () => {
+            map.fitBounds(community.getBounds())
+        })
 
         // Add heatmap layer
 
@@ -355,37 +460,35 @@
                 groupName: "Zone 1",
                 expanded: false,
                 layers: {
-                    "กลุ่มกรุงเทพกลาง": zone_01,
-                    "March 7, 2022": line
+                    "กลุ่มกรุงเทพกลาง": zone_01
                 }
             },
             {
                 groupName: "Zone 2",
                 expanded: false,
                 layers: {
-                    "กลุ่มกรุงเทพใต้": zone_02,
-                    "March 7, 2022": point
+                    "กลุ่มกรุงเทพใต้": zone_02
                 }
             },
             {
                 groupName: "Zone 3",
                 expanded: false,
                 layers: {
-                    "กลุ่มกรุงเทพเหนือ": zone_03,
+                    "กลุ่มกรุงเทพเหนือ": zone_03
                 }
             },
             {
                 groupName: "Zone 4",
                 expanded: false,
                 layers: {
-                    "กลุ่มกรุงเทพตะวันออก": zone_04,
+                    "กลุ่มกรุงเทพตะวันออก": zone_04
                 }
             },
             {
                 groupName: "Zone 5",
                 expanded: false,
                 layers: {
-                    "กลุ่มกรุงธนเหนือ": zone_05,
+                    "กลุ่มกรุงธนเหนือ": zone_05
                 }
             },
             {
@@ -393,6 +496,8 @@
                 expanded: false,
                 layers: {
                     "กลุ่มกรุงธนใต้": zone_06,
+                    "March 7, 2022: line": line,
+                    "March 7, 2022: point": point
                 }
             }
         ];
