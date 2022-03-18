@@ -104,7 +104,7 @@
             }
         });
 
-        $.getJSON('point.php', function(data) {
+        $.getJSON('http://infraplus-ru.org:4005/point', function(data) {
             point.addData(data);
         });
 
@@ -125,7 +125,7 @@
 
         var line = L.geoJson(null);
 
-        $.getJSON('line.php', function(data) {
+        $.getJSON('http://infraplus-ru.org:4005/line', function(data) {
             line.addData(data);
         });
 
