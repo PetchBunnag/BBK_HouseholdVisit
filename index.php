@@ -109,13 +109,13 @@
         });
 
         var lat = [];
-        var lon = [];
+        var lng = [];
         var people = [];
 
         var point_geojson = JSON.parse(Get('point.php'));
         for (var i = 0; i < point_geojson.features.length; i++) {
             lat.push(point_geojson.features[i].properties.Latitude)
-            lon.push(point_geojson.features[i].properties.Longitude)
+            lng.push(point_geojson.features[i].properties.Longitude)
             people.push(point_geojson.features[i].properties.people)
         }
 
@@ -281,7 +281,7 @@
         for (var i = 0; i < 34; i++) {
             var data = {
                 lat: lat[i],
-                lng: lon[i],
+                lng: lng[i],
                 count: people[i]
             }
             value.push(data);
